@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { FaPlus, FaUserCircle } from "react-icons/fa";
+import LeftSideNav from "../LeftSideNav/LeftSideNav";
 
 const Header = () => {
   return (
@@ -24,6 +25,9 @@ const Header = () => {
               </Button>
             </Nav.Link>
           </Nav>
+          <div className="d-lg-none">
+            <LeftSideNav />
+          </div>
         </Navbar.Collapse>
       </Container>
     </Navbar>
