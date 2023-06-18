@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, ButtonGroup, Carousel, ListGroup } from "react-bootstrap";
 import brand1 from "../../asset/images/4660417_2413480.jpg";
 import brand2 from "../../asset/images/hand-arrange-white-letters-brand.jpg";
@@ -13,12 +13,28 @@ import {
   FaClipboardList,
   FaShieldAlt,
 } from "react-icons/fa";
+import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const RightSideNav = () => {
+  const { googleLogin } = useContext(AuthContext);
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleGoogleLogin = () => {
+    googleLogin(googleProvider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <ButtonGroup className="w-100" vertical>
-        <Button className="mb-2 fs-5" variant="outline-primary">
+        <Button onClick={handleGoogleLogin} className="mb-2 fs-5" variant="outline-primary">
           <FaGoogle /> Login via Google
         </Button>
         <Button className="fs-5" variant="outline-dark">
