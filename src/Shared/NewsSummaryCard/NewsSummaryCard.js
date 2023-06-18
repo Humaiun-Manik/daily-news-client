@@ -5,15 +5,15 @@ import { FaBookmark, FaShareAlt, FaStar, FaEye } from "react-icons/fa";
 
 const NewsSummaryCard = ({ news }) => {
   const { _id, author, title, image_url, details, rating, total_view } = news;
-  console.log(news);
+
   return (
-    <Card className="">
+    <Card>
       <Card.Header className="d-flex justify-content-between align-items-center">
         <div className="d-flex mt-3">
-          <Image className="me-3" style={{ height: "60px" }} src={author.img} roundedCircle />
+          <Image className="me-3" style={{ height: "60px" }} src={author?.img} roundedCircle />
           <div>
-            <h5>{author.name}</h5>
-            <p>{author.published_date}</p>
+            <h5>{author?.name}</h5>
+            <p>{author?.published_date}</p>
           </div>
         </div>
         <div className="fs-5">
