@@ -8,6 +8,12 @@ import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
 
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => console.error(error));
+  };
+
   return (
     <Navbar className="shadow mb-4" collapseOnSelect expand="lg" bg="light" variant="light">
       <Container>
@@ -30,11 +36,11 @@ const Header = () => {
                   {user?.photoURL ? (
                     <Image style={{ width: "40px" }} src={user?.photoURL} roundedCircle></Image>
                   ) : (
-                    <FaUserCircle />
+                    <FaUserCircle className="fs-1" />
                   )}
                 </Nav.Link>
                 <Nav.Link>
-                  <Button onClick={logOut} variant="dark">
+                  <Button onClick={handleLogOut} variant="dark">
                     Log Out
                   </Button>
                 </Nav.Link>
