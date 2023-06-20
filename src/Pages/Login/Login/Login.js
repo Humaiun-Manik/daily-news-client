@@ -1,11 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,11 +18,11 @@ const Login = () => {
 
     signIn(email, password)
       .then((result) => {
-        const user = result.user;
         form.reset();
-        navigate("/");
+        setError("");
+        navigate(from, { replace: true });
       })
-      .catch((error) => console.error(error));
+      .catch((error) => setError(error.message));
   };
 
   return (
@@ -33,9 +36,7 @@ const Login = () => {
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" name="password" placeholder="Password" required />
       </Form.Group>
-      <Form.Text className="text-danger d-block mb-2">
-        We'll never share your email with anyone else.
-      </Form.Text>
+      <Form.Text className="text-danger d-block mb-2">{error}</Form.Text>
       <Button className="fs-5" variant="primary" type="submit">
         LOGIN
       </Button>

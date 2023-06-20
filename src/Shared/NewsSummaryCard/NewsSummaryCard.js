@@ -7,7 +7,7 @@ const NewsSummaryCard = ({ news }) => {
   const { _id, author, title, image_url, details, rating, total_view } = news;
 
   return (
-    <Card>
+    <Card className="mb-2">
       <Card.Header className="d-flex justify-content-between align-items-center">
         <div className="d-flex mt-3">
           <Image className="me-3" style={{ height: "60px" }} src={author?.img} roundedCircle />
@@ -26,11 +26,11 @@ const NewsSummaryCard = ({ news }) => {
         <Card.Img variant="top" src={image_url} />
         <Card.Text>
           {details.length > 250 ? (
-            <p>
+            <>
               {details.slice(0, 250) + "..."} <Link to={`/news/${_id}`}>Read more</Link>
-            </p>
+            </>
           ) : (
-            <p>{details}</p>
+            <>{details}</>
           )}
         </Card.Text>
       </Card.Body>

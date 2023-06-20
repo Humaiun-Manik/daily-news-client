@@ -1,9 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { AuthContext } from "../../../contexts/AuthProvider/AuthProvider";
+import { Link } from "react-router-dom";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const [error, setError] = useState("");
+  const [accepted, setAccepted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,10 +18,22 @@ const Register = () => {
 
     createUser(email, password)
       .then((result) => {
-        const user = result.user;
         form.reset();
+        setError("");
+        handleUpdateProfile(name, photoURL);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => setError(error.message));
+  };
+
+  const handleAccepted = (e) => {
+    setAccepted(e.target.checked);
+  };
+
+  const handleUpdateProfile = (name, photoURL) => {
+    const profile = { displayName: name, photoURL: photoURL };
+    updateUserProfile(profile)
+      .then(() => {})
+      .catch((error) => setError(error.message));
   };
 
   return (
@@ -42,10 +57,21 @@ const Register = () => {
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" name="password" placeholder="Password" required />
       </Form.Group>
-      <Form.Text className="text-danger d-block mb-2">
-        We'll never share your email with anyone else.
-      </Form.Text>
-      <Button className="fs-5" variant="primary" type="submit">
+      <Form.Group className="mb-3">
+        <Form.Check
+          required
+          onClick={handleAccepted}
+          label={
+            <>
+              Accept <Link to={"/terms"}>Terms and conditions</Link>
+            </>
+          }
+          feedback="You must agree before submitting."
+          feedbackType="invalid"
+        />
+      </Form.Group>
+      <Form.Text className="text-danger d-block mb-2">{error}</Form.Text>
+      <Button className="fs-5" variant="primary" type="submit" disabled={!accepted}>
         Register
       </Button>
     </Form>
